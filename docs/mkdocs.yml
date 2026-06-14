@@ -4,6 +4,7 @@ nav:
     - ⚙️ 环境配置: environment.md
     - 🚀 快速体验: quick-start.md
     - 🛠️ 本地开发: local-development.md
+    - 🔌 本机前端连接 Docker 后端: local-frontend-docker-backend.md
     - ℹ️ 常见问题: faq.md
 
 # 代码仓库信息

@@ -3,6 +3,7 @@
 interface ImportMetaEnv extends Readonly<Record<string, string>> {
   readonly VITE_BASE_API: string
   readonly VITE_SPARK_KEY: string
+  readonly VITE_SANIC_PROXY_TARGET?: string
 }
 
 interface ImportMeta {

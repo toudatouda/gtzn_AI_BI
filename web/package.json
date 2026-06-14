@@ -18,6 +18,7 @@
   },
   "scripts": {
     "dev": "vite --host",
+    "dev:docker-backend": "cross-env VITE_SANIC_PROXY_TARGET=http://127.0.0.1:18088 vite --host",
     "build": "vite build",
     "build:gh-pages": "cross-env VITE_ROUTER_MODE=hash pnpm build",
     "preview": "vite preview --host",

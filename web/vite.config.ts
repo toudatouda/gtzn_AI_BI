@@ -71,9 +71,17 @@ function readRootPageAgentBuildFlag(mode: string) {
   return parsedEnv.VITE_ENABLE_PAGE_AGENT?.trim() || ''
 }
 
+function getSanicProxyTarget(env: Record<string, string>, mode: string) {
+  const configuredTarget = env.VITE_SANIC_PROXY_TARGET?.trim()
+  if (configuredTarget) return configuredTarget
+
+  return 'http://localhost:8088'
+}
+
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
   const pageAgentBuildFlag = readRootPageAgentBuildFlag(mode)
+  const sanicProxyTarget = getSanicProxyTarget(env, mode)
 
   return {
     base: env.VITE_ROUTER_MODE === 'hash' ? '' : '/',
@@ -95,7 +103,7 @@ export default defineConfig(({ mode }) => {
           rewrite: (path) => path.replace(/^\/siliconflow/, ''),
         },
         '/sanic': {
-          target: 'http://localhost:8088',
+          target: sanicProxyTarget,
           changeOrigin: true,
           ws: true,
           rewrite: (path) => path.replace(/^\/sanic/, ''),

@@ -217,6 +217,10 @@ npm install
 npm run dev
 ```
 
+如果只在本机运行改造后的前端、后端使用 Docker Compose 启动，并需要配置自己的业务数据库，请参考：
+
+- [本机前端连接 Docker 后端开发](./docs/docs/local-frontend-docker-backend.md)
+
 
 ## 命令行工具（CLI）
 
