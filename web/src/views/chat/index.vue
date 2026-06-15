@@ -1567,6 +1567,27 @@ const currentQaOption = computed(() => {
 
 const showModeSelector = ref(false)
 const activeModeValue = ref<string | null>(null)
+const shouldShowModePill = computed(() => {
+  return Boolean(
+    currentQaOption.value
+    && activeModeValue.value
+    && !showModeSelector.value
+    && !isMobileViewport.value
+    && !showDatasourcePopover.value
+    && !showReportQaDatasourcePopover.value,
+  )
+})
+
+const shouldShowModeSelector = computed(() => {
+  return Boolean(
+    showModeSelector.value
+    || !currentQaOption.value
+    || !activeModeValue.value
+    || isMobileViewport.value
+    || showDatasourcePopover.value
+    || showReportQaDatasourcePopover.value,
+  )
+})
 
 const clearMode = () => {
   // 点击删除图标后，设置成新对话并显示默认页面
@@ -2585,7 +2606,7 @@ const handleHistoryClick = async (item: any) => {
                 <!-- Left: Mode Pill (Deep Thinking) -->
                 <div class="left-actions">
                   <div
-                    v-if="currentQaOption && !showModeSelector && !isMobileViewport"
+                    v-if="shouldShowModePill && currentQaOption"
                     class="mode-pill"
                     :style="{
                       color: currentQaOption.color,
@@ -2610,7 +2631,7 @@ const handleHistoryClick = async (item: any) => {
                     ></div>
                   </div>
                   <div
-                    v-else-if="showModeSelector || !currentQaOption || isMobileViewport"
+                    v-else-if="shouldShowModeSelector"
                     class="flex items-center gap-2"
                   >
                     <template

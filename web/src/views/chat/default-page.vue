@@ -33,6 +33,14 @@ const mobileViewportMedia = typeof window !== 'undefined'
   ? window.matchMedia('(max-width: 768px)')
   : null
 const isMobileViewport = ref(mobileViewportMedia?.matches ?? false)
+const shouldShowSelectedModePill = computed(() => {
+  return Boolean(
+    selectedMode.value
+    && !isMobileViewport.value
+    && !showDatasourcePopover.value
+    && !showReportQaDatasourcePopover.value,
+  )
+})
 
 function syncMobileViewportState(event?: MediaQueryListEvent) {
   isMobileViewport.value = event?.matches ?? mobileViewportMedia?.matches ?? false
@@ -466,7 +474,7 @@ const bottomIcons = [
           <!-- Left: Mode Pill or Chips -->
           <div class="left-actions flex items-center gap-2">
             <!-- If mode is selected, show it as a pill -->
-            <template v-if="selectedMode && !isMobileViewport">
+            <template v-if="shouldShowSelectedModePill && selectedMode">
               <div
                 class="mode-pill"
                 :style="{
