@@ -1567,7 +1567,27 @@ const currentQaOption = computed(() => {
 
 const showModeSelector = ref(false)
 const activeModeValue = ref<string | null>(null)
+const shouldShowModePill = computed(() => {
+  return Boolean(
+    currentQaOption.value
+    && activeModeValue.value
+    && !showModeSelector.value
+    && !isMobileViewport.value
+    && !showDatasourcePopover.value
+    && !showReportQaDatasourcePopover.value,
+  )
+})
 
+const shouldShowModeSelector = computed(() => {
+  return Boolean(
+    showModeSelector.value
+    || !currentQaOption.value
+    || !activeModeValue.value
+    || isMobileViewport.value
+    || showDatasourcePopover.value
+    || showReportQaDatasourcePopover.value,
+  )
+})
 const clearMode = () => {
   // 点击删除图标后，设置成新对话并显示默认页面
   // newChat() 已经会重置 qa_type 和 selectedDatasource，所以这里只需要调用它
@@ -2609,7 +2629,7 @@ const handleHistoryClick = async (item: any) => {
                     ></div>
                   </div>
                   <div
-                    v-else-if="showModeSelector || !currentQaOption || isMobileViewport"
+                    v-else-if="shouldShowModeSelector"
                     class="flex items-center gap-2"
                   >
                     <template
