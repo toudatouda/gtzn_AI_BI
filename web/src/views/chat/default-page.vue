@@ -33,14 +33,6 @@ const mobileViewportMedia = typeof window !== 'undefined'
   ? window.matchMedia('(max-width: 768px)')
   : null
 const isMobileViewport = ref(mobileViewportMedia?.matches ?? false)
-const shouldShowSelectedModePill = computed(() => {
-  return Boolean(
-    selectedMode.value
-    && !isMobileViewport.value
-    && !showDatasourcePopover.value
-    && !showReportQaDatasourcePopover.value,
-  )
-})
 
 function syncMobileViewportState(event?: MediaQueryListEvent) {
   isMobileViewport.value = event?.matches ?? mobileViewportMedia?.matches ?? false
@@ -362,48 +354,11 @@ const bottomIcons = [
       <!-- Title -->
       <div class="header-section">
         <div class="logo-wrapper">
-          <div class="page-title">
-            <span class="gradient-text">A</span>
-            <span class="gradient-text i-container">
-              i
-              <svg
-                class="star-icon"
-                width="20"
-                height="20"
-                viewBox="0 0 16 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <defs>
-                  <linearGradient
-                    id="starGradient"
-                    x1="0%"
-                    y1="0%"
-                    x2="100%"
-                    y2="100%"
-                  >
-                    <stop
-                      offset="0%"
-                      stop-color="#822dff"
-                    />
-                    <stop
-                      offset="50%"
-                      stop-color="#3e45ff"
-                    />
-                    <stop
-                      offset="100%"
-                      stop-color="#3ec4fa"
-                    />
-                  </linearGradient>
-                </defs>
-                <path
-                  d="M8 0L9.5 5.5L15 7L9.5 8.5L8 14L6.5 8.5L1 7L6.5 5.5L8 0Z"
-                  fill="url(#starGradient)"
-                />
-              </svg>
-            </span>
-            <span class="gradient-text">x</span>
-          </div>
+          <img
+            class="gtzn-logo"
+            src="@/assets/svg/GTZN.svg"
+            alt="GTZN logo"
+          >
         </div>
       </div>
 
@@ -474,7 +429,7 @@ const bottomIcons = [
           <!-- Left: Mode Pill or Chips -->
           <div class="left-actions flex items-center gap-2">
             <!-- If mode is selected, show it as a pill -->
-            <template v-if="shouldShowSelectedModePill && selectedMode">
+            <template v-if="selectedMode && !isMobileViewport">
               <div
                 class="mode-pill"
                 :style="{
@@ -799,51 +754,16 @@ $shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
   width: 100%;
 }
 
-.page-title {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  font-size: 64px;
-  font-weight: 700;
-  line-height: 1;
+.gtzn-logo {
+  display: block;
+  width: min(300px, 64vw);
   height: auto;
-  margin: 0;
-  letter-spacing: -0.03em;
-  font-family: $font-family-display;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
 }
 
-.gradient-text {
-  background: linear-gradient(135deg, $primary-color 0%, $primary-light 50%, #06b6d4 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  position: relative;
-  z-index: 1;
-}
-
-.i-container {
-  position: relative;
-  display: inline-flex;
-  flex-direction: column;
+.logo-wrapper {
+  display: flex;
+  justify-content: center;
   align-items: center;
-  margin: 0 4px;
-}
-
-.star-icon {
-  position: absolute;
-  top: -10px;
-  right: -6px;
-  left: auto;
-  transform: rotate(12deg);
-  filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.5));
-  animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%, 100% { transform: rotate(12deg) translateY(0); }
-  50% { transform: rotate(12deg) translateY(-4px); }
 }
 
 // ============================================

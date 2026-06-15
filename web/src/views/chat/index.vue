@@ -1567,27 +1567,6 @@ const currentQaOption = computed(() => {
 
 const showModeSelector = ref(false)
 const activeModeValue = ref<string | null>(null)
-const shouldShowModePill = computed(() => {
-  return Boolean(
-    currentQaOption.value
-    && activeModeValue.value
-    && !showModeSelector.value
-    && !isMobileViewport.value
-    && !showDatasourcePopover.value
-    && !showReportQaDatasourcePopover.value,
-  )
-})
-
-const shouldShowModeSelector = computed(() => {
-  return Boolean(
-    showModeSelector.value
-    || !currentQaOption.value
-    || !activeModeValue.value
-    || isMobileViewport.value
-    || showDatasourcePopover.value
-    || showReportQaDatasourcePopover.value,
-  )
-})
 
 const clearMode = () => {
   // 点击删除图标后，设置成新对话并显示默认页面
@@ -1977,11 +1956,10 @@ const handleHistoryClick = async (item: any) => {
           <!-- Header: Logo & Icons -->
           <div class="sidebar-header px-6 py-6 flex justify-between items-center">
             <div
-              class="logo-area flex items-center gap-3 cursor-pointer"
+              class="logo-area flex items-center cursor-pointer"
               @click="showDefaultPage = true"
             >
-              <div class="i-hugeicons:ai-chat-02 text-32 c-[#3B5CFF]"></div>
-              <span class="text-24 font-bold text-[#111111] tracking-tight font-sans">助手</span>
+              <span class="text-22 font-bold text-[#111111] tracking-normal font-sans whitespace-nowrap">广投智能AI助手</span>
             </div>
             <div class="header-actions flex items-center gap-5">
               <div
@@ -2606,7 +2584,7 @@ const handleHistoryClick = async (item: any) => {
                 <!-- Left: Mode Pill (Deep Thinking) -->
                 <div class="left-actions">
                   <div
-                    v-if="shouldShowModePill && currentQaOption"
+                    v-if="currentQaOption && !showModeSelector && !isMobileViewport"
                     class="mode-pill"
                     :style="{
                       color: currentQaOption.color,
@@ -2631,7 +2609,7 @@ const handleHistoryClick = async (item: any) => {
                     ></div>
                   </div>
                   <div
-                    v-else-if="shouldShowModeSelector"
+                    v-else-if="showModeSelector || !currentQaOption || isMobileViewport"
                     class="flex items-center gap-2"
                   >
                     <template
